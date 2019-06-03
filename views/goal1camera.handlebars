@@ -58,7 +58,8 @@
 			    });
 			};
 
-			//ajax call to listen to click of completeBtn and send something to backend
+
+      const currentUser = sessionStorage.getItem("currentUser");
 			$('#addPointsButton').click(() => {
 				console.log('clicked')
 				$.ajax({
@@ -66,10 +67,11 @@
 					type: 'POST',
 					data: {
 		            	addedPoints: 10,
+                  name: currentUser,
 		            },
 					success: (data) => {
-                    window.location="/task_overview";
-						console.log('you received some data!' + data);
+						window.location="/task_overview";
+		     console.log(currentUser +', you received more points');
 					}
 				});
 			});
@@ -113,7 +115,7 @@
                 document.getElementById('two').style.display = 'block';
                 document.getElementById('snap').style.display = 'none';
                 document.getElementById('show').innerHTML = "Show the picture to your parent and let them click the button below!"
-                document.getElementById('completeBtn').style.display = 'block';
+                //document.getElementById('completeBtn').style.display = 'block';
             }
 		}
 
@@ -183,7 +185,7 @@
        position:relative;
     }
 
-    .completeStyle {
+    /* .completeStyle {
 		background-color: #C4FAF8;
 		border-radius:10px;
 		border: 1px solid #6ABAC7;
@@ -194,7 +196,7 @@
         padding:3%;
         padding-right: 4%;
         padding-left: 4%;
-    }
+    } */
 
 </style>
 </html>

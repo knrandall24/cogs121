@@ -87,16 +87,8 @@ app.post('/users', (req, res) => {
 });
 
 
-// GET profile data for a user
-//
-// To test, open these URLs in your browser:
-//   http://localhost:3000/users/Philip
-//   http://localhost:3000/users/Carol
-//   http://localhost:3000/users/invalidusername
 app.get('/users/:userid', (req, res) => {
-  const nameToLookup = req.params.userid; // matches ':userid' above
-
-  // db.all() fetches all results from an SQL query into the 'rows' variable:
+  const nameToLookup = req.params.userid;
   db.all(
     'SELECT * FROM users_to_playPal WHERE name=$name',
     // parameters to SQL query:
@@ -135,10 +127,11 @@ app.get('/points', (req, res) => {
 app.post('/addPoints', (req, res) => {
   console.log(req.body);
   db.run(
-    'UPDATE users_to_playPal SET points = points + $addedPoints',
+    'UPDATE users_to_playPal SET points = points + $addedPoints WHERE name=$name',
     // parameters to SQL query:
     {
-      $addedPoints: req.body.addedPoints
+      $addedPoints: req.body.addedPoints,
+      $name: req.body.name,
     },
     // callback function to run when the query finishes:
     (err) => {
@@ -151,13 +144,15 @@ app.post('/addPoints', (req, res) => {
   );
 });
 
+
+
 app.post('/removePoints', (req, res) => {
   console.log(req.body);
   db.run(
     'UPDATE users_to_playPal SET points = points - $lostPoints',
     // parameters to SQL query:
     {
-      $lostPoints: req.body.lostPoints
+      $lostPoints: req.body.lostPoints,
     },
     // callback function to run when the query finishes:
     (err) => {
@@ -169,6 +164,7 @@ app.post('/removePoints', (req, res) => {
     }
   );
 });
+
 
 //rewards buttons stuff
 app.post('/addReward', (req, res) => {
@@ -190,7 +186,6 @@ app.post('/addReward', (req, res) => {
   );
 });
 
-
 app.get('/currentRewards', (req, res) => {
   db.all('SELECT status FROM rewards_to_playPal', (err, rows) =>{
     console.log(rows);
@@ -199,7 +194,6 @@ app.get('/currentRewards', (req, res) => {
     res.send(allRewards);
   });
 });
-
 
 // start the server at URL: http://localhost:3000/
 app.listen(3000, () => {

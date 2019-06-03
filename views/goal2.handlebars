@@ -23,7 +23,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(() => {
-			//ajax call to listen to click of completeBtn and send something to backend
+		 const currentUser = sessionStorage.getItem("currentUser");
 			$('#addPointsButton').click(() => {
 				console.log('clicked')
 				$.ajax({
@@ -31,16 +31,15 @@
 					type: 'POST',
 					data: {
 									addedPoints: 10,
+                  name: currentUser,
 								},
 					success: (data) => {
 										window.location="/task_overview";
-						console.log('you received some data!' + data);
+						console.log(currentUser +', you received more points');
 					}
 				});
 			});
 		});
-
-
 	</script>
 
 </head>
