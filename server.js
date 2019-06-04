@@ -23,24 +23,13 @@ app.get('/Tasks_page', (req, res) => {
   res.send(pageName);
 });
 
-//Login Request
-//app.get('/login', (req, res) => {
-//  const allLogins = Object.keys(ourFakeDatabase);
-  //let randomLoginID = Math.floor(Math.random()*allLogins.length); // returns a list of object keys
-//  const usedLogin = allLogins[randomLoginID];
-//  const loginToSend =  ourFakeDatabase[usedLogin];
-//  console.log('attempting to send user: ' + loginToSend);
-//  res.send(loginToSend);
-//});
-
-
-app.get('/', index.home)
-app.get('/task1', index.task1)
+app.get('/', index.start)
+app.get('/goal1', index.goal1)
 app.get('/task_overview', index.task_overview)
 app.get('/tasks_page', index.tasks_page)
 app.get('/howToPlay', index.howToPlay)
 app.get('/rewards', index.rewards)
-app.get('/tasks', index.tasks)
+app.get('/home', index.home)
 app.get('/goal1camera', index.goal1camera)
 app.get('/goal2', index.goal2)
 app.get('/goal3', index.goal3)
@@ -57,12 +46,6 @@ app.use(express.static('views'));
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('playPal.db');
 
-//getting initial point value from the database
- //let currentPoints =
- //db.all('SELECT points FROM points_to_playPal', (err, rows) => {
-//	console.log('points are ' + (rows[0].points));
-//	return rows[0].points;
-// });
 
 app.get('/users', (req, res) => {
   db.all('SELECT name FROM users_to_playPal', (err, rows) =>{
@@ -79,17 +62,18 @@ app.get('/users', (req, res) => {
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true})); // hook up with your app
 app.use(bodyParser.json());
+
+
 app.post('/users', (req, res) => {
   console.log(req.body);
-
-
   db.run(
-    'INSERT INTO users_to_playPal VALUES ($name, $password)',
+    'INSERT INTO users_to_playPal VALUES ($name, $password, $points)',
     // parameters to SQL query:
     {
       $name: req.body.name,
       $password: req.body.password,
-      $points:  req.body.points,
+      //$points: req.body.points,
+      $points:  0,
     },
     // callback function to run when the query finishes:
     (err) => {
@@ -103,16 +87,8 @@ app.post('/users', (req, res) => {
 });
 
 
-// GET profile data for a user
-//
-// To test, open these URLs in your browser:
-//   http://localhost:3000/users/Philip
-//   http://localhost:3000/users/Carol
-//   http://localhost:3000/users/invalidusername
 app.get('/users/:userid', (req, res) => {
-  const nameToLookup = req.params.userid; // matches ':userid' above
-
-  // db.all() fetches all results from an SQL query into the 'rows' variable:
+  const nameToLookup = req.params.userid;
   db.all(
     'SELECT * FROM users_to_playPal WHERE name=$name',
     // parameters to SQL query:
@@ -133,7 +109,8 @@ app.get('/users/:userid', (req, res) => {
 
 //rewards retrival code
 app.get('/points', (req, res) => {
-	db.all('SELECT points FROM points_to_playPal',
+	db.all(
+   'SELECT points FROM users_to_playPal',
 
 		(err, rows) => {
 			console.log(rows);
@@ -150,10 +127,11 @@ app.get('/points', (req, res) => {
 app.post('/addPoints', (req, res) => {
   console.log(req.body);
   db.run(
-    'UPDATE points_to_playPal SET points = points + $addedPoints',
+    'UPDATE users_to_playPal SET points = points + $addedPoints WHERE name=$name',
     // parameters to SQL query:
     {
-      $addedPoints: req.body.addedPoints
+      $addedPoints: req.body.addedPoints,
+      $name: req.body.name,
     },
     // callback function to run when the query finishes:
     (err) => {
@@ -168,6 +146,54 @@ app.post('/addPoints', (req, res) => {
 
 
 
+app.post('/removePoints', (req, res) => {
+  console.log(req.body);
+  db.run(
+    'UPDATE users_to_playPal SET points = points - $lostPoints',
+    // parameters to SQL query:
+    {
+      $lostPoints: req.body.lostPoints,
+    },
+    // callback function to run when the query finishes:
+    (err) => {
+      if (err) {
+        res.send({message: 'error in app.post(/removePoints)'});
+      } else {
+        res.send({message: 'successfully run app.post(/removePoints)'});
+      }
+    }
+  );
+});
+
+
+//rewards buttons stuff
+app.post('/addReward', (req, res) => {
+  console.log(req.body);
+  db.run(
+    'UPDATE rewards_to_playPal SET status = 1 WHERE rewardID = $rewardID',
+    // parameters to SQL query:
+    {
+      $rewardID: req.body.rewardID
+    },
+    // callback function to run when the query finishes:
+    (err) => {
+      if (err) {
+        res.send({message: 'error in app.post(/addReward)'});
+      } else {
+        res.send({message: 'successfully run app.post(/addReward)'});
+      }
+    }
+  );
+});
+
+app.get('/currentRewards', (req, res) => {
+  db.all('SELECT status FROM rewards_to_playPal', (err, rows) =>{
+    console.log(rows);
+    const allRewards = rows.map(e => e.status);
+    console.log(allRewards);
+    res.send(allRewards);
+  });
+});
 
 // start the server at URL: http://localhost:3000/
 app.listen(3000, () => {

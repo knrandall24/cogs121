@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Goal 1</title>
+	<title>Park: Goal 1</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
     crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/css/camera.css"> 
-	<link rel="stylesheet" href="/css/layout.css"> 
+	<link rel="stylesheet" href="/css/camera.css">
+	<link rel="stylesheet" href="/css/layout.css">
 
 	<script src="jquery-3.3.1.min.js"></script>
 </head>
 
 
-<body>
+<body style= "background-color: #d0fcce;">
 	<div class="header">
-		<h1>Goal 1</h1>
+		<h1>Park: Goal 1</h1>
 	</div>
-	<br>
-	<button onclick="goBack()"> Go Back</button>
+	<button onclick="goBack()" style= "background-color: #d0fcce; /* Green */
+  border: none;
+  color: black;
+  padding: 20px; font-size: 20px;">< Back</button>
 
 	<div class="bodyText">
 		<br>
@@ -37,7 +39,7 @@
 	</div>
 
 	<div class="icon-bar">
-		<a href="tasks"><i class="fa fa-home"></i></a>
+		<a href="home"><i class="fa fa-home"></i></a>
 		<a href="task_overview"><i class="fa fa-map-pin"></i></a>
 		<a href="rewards"><i class="fa fa-trophy"></i></a>
 	</div>
@@ -57,7 +59,7 @@
 	}
 
 	.imgBorder {
-		border: 1px solid black;
+		border: none;
 		padding: 5px;
 		display: block;
  		margin-left: auto;
@@ -66,8 +68,8 @@
 	}
 
 	.button {
-        background-color: #E3E1E1;
-        border: none;
+        background-color: #88EFFF;
+        border: 1px solid #6ABAC7;
         color: white;
         padding: 8px 15px;
         text-align: center;
@@ -78,9 +80,9 @@
         cursor: pointer;
         border-radius:10px;
     }
-    
+
     .button:hover {
         background-color: rgba(253, 196, 42, 0.74);
-    }  
+    }
 </style>
 </html>

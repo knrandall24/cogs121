@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/layout.css">
+
+<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+    // jQuery convention for running when the document has been fully loaded:
+    $(document).ready(() => {
+      $('#insertButton').click(() => {
+           sessionStorage.setItem("currentUser", "");
+        const newUser = $('#insertNameBox').val();
+         const newPassword = $('#insertPasswordBox').val();
+
+        $.ajax({
+          // all URLs are relative to http://localhost:3000/
+          url: 'users',
+          type: 'POST', // <-- this is POST, not GET
+          data: {
+                  name: $('#insertNameBox').val(),
+                  password: $('#insertPasswordBox').val(),
+                  points: $('#pointsDiv').val(),
+                   //points: 0,
+                },
+          success: (data) => {
+           sessionStorage.setItem("currentUser", newUser);
+          window.location="/home";
+        console.log("You inserted new data: Name "+ data.name +' Password ' + data.password +' Points ' +data.points);
+          }
+        });
+        });
+
+        $(document).ajaxError(() => {
+          $('#status').html('Error: unknown ajaxError!');
+        });
+        });
+    </script>
+</head>
+
+
+<body style="background-color:#d0fcce;">
+  <div id="startPage"></div>
+    <center>
+    <img src="PlayPalLogo.png"  width="50%"></img>
+  </center>
+  <center> <form id="signUpForm"  action="/users">
+        <h1>
+          <font face="Segoe UI" color="#65b473" size ="7">Sign Up</font>
+        </h1>
+</center>
+<center>
+<div container="insert" style=" padding:30px;">
+      <font face="Segoe UI" color="#000000" size ="4" style="position:relative;" >Username:</font>
+      <br><input id="insertNameBox" type="text" placeholder="Enter Your Username" style="position:center; width: 320px; left:21px;"><br><br>
+      <font face="Segoe UI" color="#000000" size ="4" style="position:left; left:20px;" >Password:</font>
+     <br><input id="insertPasswordBox" type="password" placeholder="Enter Your Password" style="position:center; width: 320px; left:21px;"><br><br>
+</div></center>
+<div id="pointsDiv" style="text-align: center; font-size:32px; padding: 5px;"></div>
+<center>
+          <button id="insertButton" type="submit" class="signupbtn">Submit</button><br><br>
+          <p> Are you a already a member? <a href="login">Login</a></p>
+          </center>
+    </form>
+</body>
+</html>

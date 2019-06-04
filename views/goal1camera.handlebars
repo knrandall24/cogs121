@@ -58,7 +58,8 @@
 			    });
 			};
 
-			//ajax call to listen to click of completeBtn and send something to backend
+
+      const currentUser = sessionStorage.getItem("currentUser");
 			$('#addPointsButton').click(() => {
 				console.log('clicked')
 				$.ajax({
@@ -66,10 +67,11 @@
 					type: 'POST',
 					data: {
 		            	addedPoints: 10,
+                  name: currentUser,
 		            },
 					success: (data) => {
-                    window.location="/task_overview";
-						console.log('you received some data!' + data);
+						window.location="/task_overview";
+		     console.log(currentUser +', you received more points');
 					}
 				});
 			});
@@ -113,7 +115,7 @@
                 document.getElementById('two').style.display = 'block';
                 document.getElementById('snap').style.display = 'none';
                 document.getElementById('show').innerHTML = "Show the picture to your parent and let them click the button below!"
-                document.getElementById('completeBtn').style.display = 'block';
+                //document.getElementById('completeBtn').style.display = 'block';
             }
 		}
 
@@ -131,12 +133,15 @@
 
 
 
-<body>
+<body style= "background-color: #d0fcce;">
 	<div class="header">
 		<h1>Goal 1</h1>
 	</div>
 	<br>
-	<button onclick="goBack()"> Go Back</button>
+	<button onclick="goBack()" style= "background-color: #d0fcce; /* Green */
+  border: none;
+  color: black;
+  padding: 20px; font-size: 20px;">< Back</button>
 	<div>
 		<div id="one">
 			<video id="video" width="100%" height="450" autoplay></video>
@@ -164,7 +169,7 @@
 
 
 	<div class="icon-bar">
-		<a href="tasks"><i class="fa fa-home"></i></a>
+		<a href="home"><i class="fa fa-home"></i></a>
 		<a href="task_overview"><i class="fa fa-map-pin"></i></a>
 		<a href="rewards"><i class="fa fa-trophy"></i></a>
 	</div>
@@ -180,9 +185,10 @@
        position:relative;
     }
 
-    .completeStyle {
-		background-color: lightblue;
+    /* .completeStyle {
+		background-color: #C4FAF8;
 		border-radius:10px;
+		border: 1px solid #6ABAC7;
 		font-size:25px;
 		color: white;
         left:50%;
@@ -190,7 +196,7 @@
         padding:3%;
         padding-right: 4%;
         padding-left: 4%;
-    }
+    } */
 
 </style>
 </html>

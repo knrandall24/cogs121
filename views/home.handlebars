@@ -1,69 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
+  <title>Home</title>
+  <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+    crossorigin="anonymous">
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/layout.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+    //code to display current number of points when the page loads
+  $(document).ready(() => {
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
-crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/layout.css">
+   const currentUser = sessionStorage.getItem("currentUser");
+   $('#helloUser').html('Welcome, ' + currentUser + '!');
+   console.log('session storage, my name is ', currentUser);
 
-<script src="jquery-3.3.1.min.js"></script>
-<script type="text/javascript">
-// jQuery convention for running when the document has been fully loaded:
-$(document).ready(() => {
-  $('#insertButton').click(() => {
-    $.ajax({
-      // all URLs are relative to http://localhost:3000/
-      url: 'users',
-      type: 'POST', // <-- this is POST, not GET
-      data: {
-              name: $('#insertNameBox').val(),
-              password: $('#insertPasswordBox').val(),
-              points: $('#points').val()
-            },
-      success: (data) => {
-      window.location='/task_overview';
-        $('#status').html(data.message);
-          console.log("You inserted new data: Name "+ data.name +' Password ' + data.password +' Points ' +data.points);
-      }
-    });
-    });
+//uncomment this to display points
+  /* const myURL = 'users/'+ currentUser;
+        $.ajax({
+         url: myURL,
+         type: 'GET',
+         dataType: 'json',
+         success: (data) => {
+           console.log('task overview points', data.points);
+           $('#pointsDiv').html('You have ' + data.points + ' points!');
+       }
+       }) */
 
-    $(document).ajaxError(() => {
-      $('#status').html('Error: unknown ajaxError!');
-    });
-    });
+   $('#startButton').click(() => {
+     window.location="/task_overview";
+   });
+
+   $('#logOut').click(() => {
+     sessionStorage.clear();
+     window.location="/";
+    alert( 'You are logged out' );
+   });
+});
     </script>
-
 
 </head>
 
+<body style="background-color:#d0fcce;">
+	<br><br>
+  <center>
 
-<body>
-  <div class="header" id="homepage">
-    <h1>Play Pal</h1>
+<img src="PlayPalLogo.png"  width="50%"></img><br><br>
+</center>
+<h2 id="helloUser" style="text-align: center"></h2>
+<h2 id="pointsDiv" style="text-align: center;"></h2>
+<br>
+<div>
+<center>
+<button id="startButton" type="button" class="startBtn">Start</button></div><br><br>
+<div></center>
+<center>
+<a id ="logOut" type="button" class="logoutBtn">Log Out</a></center>
+
+	<br><br>
+	<br><br>
+
+  <div class="icon-bar">
+    <a href="home" class="active"><i class="fa fa-home"></i></a>
+    <a href="task_overview"><i class="fa fa-map-pin"></i></a>
+    <a href="rewards"><i class="fa fa-trophy"></i></a>
   </div>
-  <br></br>
-  <center><form id="signUpForm"  action="/users">
-        <h1>Sign Up</h1>
-        <hr>
-    Nickname:<br><input id="insertNameBox" type="text" placeholder="Enter Your Nickname"><br><br>
-    Password:<br><input id="insertPasswordBox" type="password" placeholder="Enter Password"><br><br>
-          <button id="cancelButton" type="button"  class="cancelbtn">Cancel</button>
-          <button id="insertButton" type="submit" class="signupbtn">Sign Up</button>
-          <br><br><br>
-          </hr>
-          <p> Are you a member? </p>
-          <div class="pill-nav">
-          <a href="login">Login</a>
-          </div>
-          <br><div id="nameDiv"></div>
-          <br><div id="pointsDiv"></div>
-          <br><div id="status"></div>
-    </form></center>
+
+
+
+
 </body>
 </html>

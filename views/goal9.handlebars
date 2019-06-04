@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Goal 9</title>
+	<title>Beach: Goal 3</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -23,7 +23,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(() => {
-			//ajax call to listen to click of completeBtn and send something to backend
+		 const currentUser = sessionStorage.getItem("currentUser");
 			$('#addPointsButton').click(() => {
 				console.log('clicked')
 				$.ajax({
@@ -31,31 +31,32 @@
 					type: 'POST',
 					data: {
 									addedPoints: 10,
+                  name: currentUser,
 								},
 					success: (data) => {
 										window.location="/task_overview";
-						console.log('you received some data!' + data);
+						console.log(currentUser +', you received more points');
 					}
 				});
 			});
 		});
-
-
 	</script>
 
 </head>
 
-<body>
+<body style= "background-color: #ffffd1;">
 	<div class="header">
-		<h1>Goal 9</h1>
+		<h1>Beach: Goal 3</h1>
 	</div>
-	<br>
-	<button onclick="goBack()"> Go Back</button>
+	<button onclick="goBack()" style= "background-color: #ffffd1;
+  border: none;
+  color: black;
+  padding: 20px; font-size: 20px;">< Back</button>
 	<div>
         <center>
 		<h4 id="show" style="text-align: center">Play frisbee with your mom/dad</h4><br>
-		<img src="frisbee.jpg" style="width:80%"></img>
-<br><br><br><br>
+		<img src="frisbee.jpg" style="width:60%"></img>
+<br><br><br>
 		<div>
 			<button class="completeStyle" id="addPointsButton">Complete to earn 10 Pts!</button>
 		</div>
@@ -65,7 +66,7 @@
 	</div><br><br><br><br><br><br>
 
 	<div class="icon-bar">
-		<a href="tasks"><i class="fa fa-home"></i></a>
+		<a href="home"><i class="fa fa-home"></i></a>
 		<a href="task_overview"><i class="fa fa-map-pin"></i></a>
 		<a href="rewards"><i class="fa fa-trophy"></i></a>
 	</div>

@@ -125,15 +125,15 @@
       });
 
       //content to place into infoWindows
-      var myParkGoals = '<p><a id ="Task1" href="task1" class="btn btn-info btn-lg" aria-hidden="true">Goal 1</a>'+ '<br></br>'+
-          '<a id ="Task2" href="goal2" class="btn btn-info btn-lg" aria-hidden="true">Goal 2</a>'+ '<br></br>'+
-          '<a id ="Task3" href="goal3" class="btn btn-info btn-lg" aria-hidden="true"></span>Goal 3</a>' +'</p>';
-      var myMallGoals = '<p><a id ="Task4" href="goal4" class="btn btn-info btn-lg" aria-hidden="true">Goal 1</a>'+ '<br></br>'+
-          '<a id ="Task5" href="goal5" class="btn btn-info btn-lg" aria-hidden="true">Goal 2</a>'+ '<br></br>'+
-          '<a id ="Task6" href="goal6" class="btn btn-info btn-lg" aria-hidden="true"></span>Goal 3</a>' +'</p>';
-      var myBeachGoals = '<p><a id ="Task7" href="goal7" class="btn btn-info btn-lg" aria-hidden="true">Goal 1</a>'+ '<br></br>'+
-          '<a id ="Task8" href="goal8" class="btn btn-info btn-lg" aria-hidden="true">Goal 2</a>'+ '<br></br>'+
-          '<a id ="Task9" href="goal9" class="btn btn-info btn-lg" aria-hidden="true"></span>Goal 3</a>' +'</p>';
+      var myParkGoals = '<p><a id ="Task1" href="goal1" class="btn btn-info btn-lg">Goal 1</a>'+ '<br></br>'+
+          '<a id ="Task2" href="goal2" class="btn btn-info btn-lg">Goal 2</a>'+ '<br></br>'+
+          '<a id ="Task3" href="goal3" class="btn btn-info btn-lg">Goal 3</a>' +'</p>';
+      var myMallGoals = '<p><a id ="Task4" href="goal4" class="btn btn-info btn-lg">Goal 1</a>'+ '<br></br>'+
+          '<a id ="Task5" href="goal5" class="btn btn-info btn-lg">Goal 2</a>'+ '<br></br>'+
+          '<a id ="Task6" href="goal6" class="btn btn-info btn-lg">Goal 3</a>' +'</p>';
+      var myBeachGoals = '<p><a id ="Task7" href="goal7" class="btn btn-info btn-lg">Goal 1</a>'+ '<br></br>'+
+          '<a id ="Task8" href="goal8" class="btn btn-info btn-lg">Goal 2</a>'+ '<br></br>'+
+          '<a id ="Task9" href="goal9" class="btn btn-info btn-lg">Goal 3</a>' +'</p>';
 
 
       if(place.types[0]=="park"){
@@ -153,29 +153,37 @@
        }//end if statement
   }//end function
 
-
 </script>
 
-<body>
+<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(() => {
+      const currentUser = sessionStorage.getItem("currentUser");
+       const myURL = 'users/'+ currentUser;
+       $.ajax({
+        url: myURL,
+        type: 'GET',
+        dataType: 'json',
+        success: (data) => {
+          console.log('task overview points', data.points);
+          $('#pointsDiv').html('You have ' + data.points + ' points!');
+     }
+   })
+});
+</script>
+
+<body style="background-color:#f3e3ff;">
   <div class="header" id="task_overview">
     <h1>Goal Overview</h1>
   </div>
-<br>
-
-<button onclick="goBack()"> Go Back</button>
-<h5 style="text-align: center">Map</h5>
-
-<div id="map" style="width:100%;height:400px;"></div>
-<!-- <div id="myParkGoals"></div>
-<div id="myMallGoals"></div>
-<div id="myBeachGoals"></div> -->
+  <h4 id="pointsDiv" style="text-align: center; font-size:32px; padding: 5px;"></h4>
+<div id="map" style="width:100%;height:410px;"></div>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaxRdT8G8uKojUzG1PX2OQyeXD-B3T64A&libraries=places&callback=initMap"></script>
 
 <div class="icon-bar">
-  <a href="tasks" ><i class="fa fa-home"></i></a>
+  <a href="home" ><i class="fa fa-home"></i></a>
   <a href="task_overview" class="active"><i class="fa fa-map-pin"></i></a>
   <a href="rewards"><i class="fa fa-trophy"></i></a>
 </div>
-
 </body>
 </html>
