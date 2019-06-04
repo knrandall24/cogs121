@@ -60,3 +60,7 @@ exports.goal8 = function(req, res){
 exports.goal9 = function(req, res){
   res.render('goal9');
 };
+
+exports.graph = function(req, res){
+  res.render('graph');
+};
